@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrii Preizner</title>
+<meta name="description" content="Andrii Preizner — Technical Lead, backend & platform engineering. Resume site: impact, experience, projects, toolkit.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --paper: #f7f5f0;
+    --paper-raised: #ffffff;
+    --ink: #1c2430;
+    --ink-soft: #4c5566;
+    --ink-faint: #7c8494;
+    --rule: #ddd8cc;
+    --rule-soft: #e8e4d9;
+    --accent: #2c6e63;
+    --accent-soft: #e4ede9;
+    --chip-bg: #eef0e6;
+    --chip-text: #33473f;
+    --shadow: 0 1px 2px rgba(28,36,48,0.05), 0 12px 32px rgba(28,36,48,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper: #12161a;
+      --paper-raised: #171c21;
+      --ink: #e9e6de;
+      --ink-soft: #b7bcc4;
+      --ink-faint: #7d8590;
+      --rule: #2b3138;
+      --rule-soft: #23282e;
+      --accent: #5fb3a2;
+      --accent-soft: #1b2723;
+      --chip-bg: #1c2420;
+      --chip-text: #b9d6c9;
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 32px rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper: #12161a;
+    --paper-raised: #171c21;
+    --ink: #e9e6de;
+    --ink-soft: #b7bcc4;
+    --ink-faint: #7d8590;
+    --rule: #2b3138;
+    --rule-soft: #23282e;
+    --accent: #5fb3a2;
+    --accent-soft: #1b2723;
+    --chip-bg: #1c2420;
+    --chip-text: #b9d6c9;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 32px rgba(0,0,0,0.3);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap{ max-width: 800px; margin: 0 auto; padding-inline: 20px; }
+
+  a{ color: inherit; }
+
+  /* ---- progress rail ---- */
+  #progress{
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: var(--accent); z-index: 60; transition: width .08s linear;
+  }
+
+  /* ---- nav ---- */
+  nav{
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner{
+    max-width: 800px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .wordmark{
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 17px;
+    letter-spacing: -0.01em; text-decoration: none; color: var(--ink);
+  }
+  .wordmark span{ color: var(--accent); }
+  .nav-links{ display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a{
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; color: var(--ink-faint);
+    padding-bottom: 3px; border-bottom: 1px solid transparent;
+  }
+  .nav-links a:hover, .nav-links a.active{ color: var(--accent); border-color: var(--accent); }
+  @media (max-width: 560px){ .nav-links{ gap: 12px; } .nav-links a{ font-size: 10.5px; } }
+
+  /* ---- section eyebrow (shared motif) ---- */
+  .eyebrow{
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 22px;
+  }
+  .eyebrow::after{ content: ""; flex: 1; height: 1px; background: var(--rule); }
+  section{ padding: 64px 0; border-bottom: 1px solid var(--rule); }
+  section:last-of-type{ border-bottom: none; }
+
+  /* ---- hero ---- */
+  .hero{ padding: 72px 0 56px; }
+  .hero-eyebrow{
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent);
+    letter-spacing: 0.03em; margin-bottom: 14px;
+  }
+  h1.name{
+    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+    font-size: clamp(40px, 7vw, 64px); line-height: 1.02; letter-spacing: -0.015em;
+    text-wrap: balance; margin: 0 0 18px;
+  }
+  .pitch{ font-size: 16.5px; line-height: 1.65; color: var(--ink-soft); max-width: 60ch; }
+  .pitch b{ color: var(--ink); font-weight: 600; }
+  .cta-row{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+  .cta{
+    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; text-decoration: none;
+    padding: 9px 16px; border-radius: 999px; border: 1px solid var(--rule);
+    color: var(--ink-soft); white-space: nowrap;
+  }
+  .cta:hover{ border-color: var(--accent); color: var(--accent); }
+  .cta.primary{ background: var(--accent); border-color: var(--accent); color: var(--paper-raised); }
+  .cta.primary:hover{ color: var(--paper-raised); opacity: .92; }
+
+  /* ---- stats ---- */
+  .stats{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+  .stat{
+    background: var(--paper-raised); border: 1px solid var(--rule-soft); border-radius: 10px;
+    padding: 18px 16px; box-shadow: var(--shadow);
+  }
+  .stat-num{
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 30px;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .stat-label{ font-size: 12px; color: var(--ink-faint); margin-top: 4px; line-height: 1.4; }
+  @media (max-width: 560px){ .stats{ grid-template-columns: 1fr; } }
+
+  /* ---- impact list ---- */
+  .impact-list{ display: flex; flex-direction: column; gap: 14px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .impact-list li{ display: flex; gap: 12px; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+  .impact-list li::before{
+    content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); margin-top: 9px;
+  }
+  .impact-list b{ color: var(--ink); font-weight: 600; }
+  .strengths{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .strength{
+    font-size: 12.5px; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 999px;
+    padding: 5px 13px;
+  }
+
+  /* ---- timeline (experience) ---- */
+  .timeline{ position: relative; }
+  .timeline::before{
+    content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--rule);
+  }
+  .role{ position: relative; padding-left: 30px; margin-bottom: 6px; }
+  .role::before{
+    content: ""; position: absolute; left: 0; top: 8px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--accent);
+  }
+  .role summary{
+    cursor: pointer; list-style: none; padding: 14px 0; display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: baseline; gap: 8px 16px;
+  }
+  .role summary::-webkit-details-marker{ display: none; }
+  .role-title-line{ display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .role-title{ font-weight: 600; font-size: 16px; }
+  .role-company{ color: var(--accent); font-size: 14px; }
+  .role-client{ color: var(--ink-faint); font-size: 12px; }
+  .role-date{
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-faint);
+    font-variant-numeric: tabular-nums; white-space: nowrap; display: flex; align-items: center; gap: 8px;
+  }
+  .chev{ transition: transform .18s ease; color: var(--ink-faint); font-size: 11px; }
+  .role[open] .chev{ transform: rotate(90deg); }
+  .role-body{ padding: 0 0 20px; }
+  .role-place{ font-size: 12.5px; color: var(--ink-faint); margin-bottom: 2px; }
+  .role-product{ font-size: 12.5px; color: var(--ink-soft); font-style: italic; margin-bottom: 8px; }
+  .role-body ul{ margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+  .role-body li{ font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); }
+  .role-body li::marker{ color: var(--accent); }
+  .role-early{ position: relative; padding-left: 30px; display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; padding-top: 10px; padding-bottom: 10px; }
+  .role-early::before{
+    content: ""; position: absolute; left: 0; top: 15px; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--rule);
+  }
+  .role-early .role-company{ color: var(--ink-soft); }
+
+  /* ---- project cards ---- */
+  .proj-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 620px){ .proj-grid{ grid-template-columns: 1fr; } }
+  .proj-card{
+    background: var(--paper-raised); border: 1px solid var(--rule-soft); border-radius: 12px;
+    padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px;
+  }
+  .proj-card.wide{ grid-column: 1 / -1; }
+  .proj-top{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .proj-name{ font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 18px; }
+  .proj-role{ font-size: 12px; color: var(--ink-faint); }
+  .proj-tags{ display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip{
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; background: var(--chip-bg); color: var(--chip-text);
+    padding: 3px 8px; border-radius: 5px; white-space: nowrap;
+  }
+  .proj-desc{ font-size: 13.5px; line-height: 1.58; color: var(--ink-soft); }
+  .proj-links{ display: flex; gap: 12px; flex-wrap: wrap; margin-top: 2px; }
+  .proj-links a{
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--accent); text-decoration: none;
+  }
+  .proj-links a:hover{ text-decoration: underline; }
+  .proj-impact{
+    font-size: 12.5px; color: var(--ink); background: var(--accent-soft); border-radius: 7px;
+    padding: 9px 12px; margin-top: 2px;
+  }
+  .proj-impact b{ font-weight: 600; }
+
+  /* ---- toolkit ---- */
+  .toolkit-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 32px; }
+  @media (max-width: 560px){ .toolkit-grid{ grid-template-columns: 1fr; } }
+  .toolkit-group-label{ font-size: 13px; font-weight: 600; margin-bottom: 9px; }
+  .chips{ display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* ---- background ---- */
+  .bg-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media (max-width: 660px){ .bg-grid{ grid-template-columns: 1fr; } }
+  .bg-col h3{
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-faint); margin: 0 0 12px; font-weight: 500;
+  }
+  .edu-item{ font-size: 13.5px; line-height: 1.5; margin-bottom: 12px; }
+  .edu-item:last-child{ margin-bottom: 0; }
+  .edu-degree{ font-weight: 600; }
+  .edu-school{ color: var(--ink-soft); }
+  .edu-date{ font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-faint); }
+  .cert-item{ font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+  .lang-item{ display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; gap: 8px; }
+  .lang-level{ font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-faint); }
+
+  /* ---- footer / contact ---- */
+  footer{
+    background: var(--accent-soft); border-top: 1px solid var(--rule);
+  }
+  .footer-inner{ max-width: 800px; margin: 0 auto; padding: 56px 20px 40px; }
+  .footer-eyebrow{
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .footer-line{
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(24px, 4vw, 32px);
+    text-wrap: balance; margin-bottom: 22px;
+  }
+  .footer-links{ display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+  .footer-meta{ font-size: 12.5px; color: var(--ink-faint); font-family: "IBM Plex Mono", monospace; }
+
+  ::selection{ background: var(--accent); color: var(--paper-raised); }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">Andrii<span>.</span>Preizner</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<header class="wrap hero">
+  <div class="hero-eyebrow">Technical Lead — Backend &amp; Platform Engineering</div>
+  <h1 class="name">Andrii Preizner</h1>
+  <p class="pitch">
+    Lead software engineer who treats the business problem as the starting point — I dig into the domain,
+    understand what the product does for its users, and shape engineering decisions around that. I also have a
+    track record of building and scaling teams from the ground up, taking ownership end to end from shaping
+    requirements through delivery and what happens after it's in production, and building teams that work the
+    same way. I've done this across computer networking, security, finance, and healthcare domains — usually in
+    cross-functional distributed teams. Beyond team-building, I design and implement scalable, highly maintainable
+    backend systems, treating quality, security, and reliability as non-negotiable rather than an afterthought.
+    My core expertise is backend engineering, but I'm T-shaped across the stack — comfortable in UI, SRE, and
+    database engineering, on both cloud and on-premises products. I've consistently been rated a top performer
+    across every project I've delivered.
+  </p>
+  <div class="cta-row">
+    <a class="cta primary" href="mailto:andrew.preizner@gmail.com">Email me</a>
+    <a class="cta" href="https://www.linkedin.com/in/andrewpreizner/">LinkedIn</a>
+    <a class="cta" href="https://github.com/aprey10">GitHub</a>
+    <a class="cta" href="Andrii_Preizner_CV.pdf">Full résumé ↗</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">years in software engineering</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">domains — networking, security, finance, healthcare</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">10–12</div>
+      <div class="stat-label">engineers led, across two teams today</div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap" id="impact">
+  <div class="eyebrow">Impact</div>
+  <ul class="impact-list">
+    <li><span>Built and led <b>multiple engineering teams from formation</b>, defining the hiring bar, onboarding path, and day-to-day working practices.</span></li>
+    <li><span>Led the migration of a Cisco product to a <b>new licensing model</b> spanning entitlement, enforcement, and the customer upgrade path, across two teams.</span></li>
+    <li><span>Designed a high-load service exposing a <b>GraphQL-like query API</b> that translates into SQL against Vertica-backed firewall logs.</span></li>
+    <li><span>Grew engineers into <b>independent decision-makers</b> who now own service areas of their own.</span></li>
+  </ul>
+  <div class="strengths">
+    <span class="strength">Team building &amp; hiring</span>
+    <span class="strength">Technical leadership</span>
+    <span class="strength">Cross-functional collaboration</span>
+    <span class="strength">Mentorship &amp; coaching</span>
+    <span class="strength">Quality, security &amp; reliability</span>
+  </div>
+</section>
+
+<section class="wrap" id="work">
+  <div class="eyebrow">Featured work</div>
+  <div class="proj-grid">
+
+    <div class="proj-card wide">
+      <div class="proj-top">
+        <span class="proj-name">Cloud Mailbox Security Solution</span>
+        <span class="proj-role">SoftServe · client: Cisco · On-site Technical Leader · 5+ years</span>
+      </div>
+      <div class="proj-tags">
+        <span class="chip">Python</span><span class="chip">Go</span><span class="chip">AWS Lambda</span>
+        <span class="chip">Docker</span><span class="chip">Terraform</span>
+      </div>
+      <p class="proj-desc">
+        Cloud-based email security platform that detects and blocks threats, gives customers full visibility
+        through a search/reporting/tracking dashboard, and automatically remediates malicious messages. Built a
+        brand-new team from scratch and own the part of the application portal responsible for configuration,
+        policy, administration, and integration with other Cisco products.
+      </p>
+      <div class="proj-impact"><b>Scope:</b> started leading one ~8-person team; now lead a capability group of two teams (~10–12 engineers total).</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-name">Secure Network Analytics</span>
+        <span class="proj-role">SoftServe · client: Cisco</span>
+      </div>
+      <div class="proj-tags">
+        <span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Vertica</span>
+      </div>
+      <p class="proj-desc">
+        Led development of a high-load service exposing a GraphQL-like query API over Vertica-backed firewall
+        logs, and led one of two teams migrating the product to a new licensing model.
+      </p>
+      <div class="proj-impact"><b>Scope:</b> led a 6–7 person team.</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-name">Open Poker</span>
+        <span class="proj-role">Personal project · Open source</span>
+      </div>
+      <div class="proj-tags">
+        <span class="chip">Java</span><span class="chip">Jira plugin</span>
+      </div>
+      <p class="proj-desc">
+        A Jira plugin adding lightweight Planning (Scrum) Poker to the issue view. The commercial edition was
+        later acquired by Sngular (formerly TecnoFor); the free edition remains open source.
+      </p>
+      <div class="proj-links">
+        <a href="https://github.com/aprey10/open-poker">GitHub ↗</a>
+        <a href="https://marketplace.atlassian.com/apps/1224299/shared-estimations-formerly-open-poker?hosting=cloud&amp;tab=overview">Marketplace ↗</a>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-name">Billing Platform</span>
+        <span class="proj-role">SoftServe · client: Goreansverse</span>
+      </div>
+      <div class="proj-tags">
+        <span class="chip">Java</span><span class="chip">Spring / DropWizard</span><span class="chip">PostgreSQL</span>
+      </div>
+      <p class="proj-desc">
+        Multitenant, cloud-based billing and subscription platform. Code-owned the tax-processing microservice
+        and refactored undocumented legacy logic out of the monolith.
+      </p>
+      <div class="proj-impact"><b>Scope:</b> 5–8 person team.</div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-name">Mobile Platform Game</span>
+        <span class="proj-role">Playtika</span>
+      </div>
+      <div class="proj-tags">
+        <span class="chip">Java</span><span class="chip">Spring Cloud</span><span class="chip">Kafka</span>
+      </div>
+      <p class="proj-desc">
+        High-load backend microservices for a new title on Playtika's cloud gaming platform, with full ownership
+        of delivery, monitoring, and production incidents.
+      </p>
+      <div class="proj-impact"><b>Scope:</b> 7-person team.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="wrap" id="experience">
+  <div class="eyebrow">Experience</div>
+  <div class="timeline">
+
+    <details class="role" open>
+      <summary>
+        <div class="role-title-line">
+          <span class="role-title">Technical Lead</span>
+          <span class="role-company">SoftServe</span>
+          <span class="role-client">· client: Cisco</span>
+        </div>
+        <span class="role-date">May 2021 — Present <span class="chev">▸</span></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-place">Alpharetta, GA · on-site at Cisco</div>
+        <div class="role-product">Secure Email Threat Defense — cloud-based email security platform</div>
+        <ul>
+          <li>Built and led multiple engineering teams from formation, owning the part of the application portal responsible for configuration, policy, administration, and integration with other Cisco products.</li>
+          <li>Designed cloud-native services built to scale horizontally, with security, resilience, and operational cost factored into the architecture.</li>
+          <li>Negotiated scope, dependencies, and delivery timelines with tech leads and product owners across the platform.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="role">
+      <summary>
+        <div class="role-title-line">
+          <span class="role-title">Technical Lead / Team Lead</span>
+          <span class="role-company">SoftServe</span>
+          <span class="role-client">· client: Cisco</span>
+        </div>
+        <span class="role-date">Jul 2018 — May 2021 <span class="chev">▸</span></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-place">Alpharetta, GA · on-site at Cisco</div>
+        <div class="role-product">Secure Network Analytics (Stealthwatch) — network visibility &amp; threat detection</div>
+        <ul>
+          <li>Formed a new 6–8 person team and set up its planning, code review, and release processes.</li>
+          <li>Led integration of a new licensing model across the product and delivered integrations with adjacent Cisco products.</li>
+          <li>Designed the technical solutions behind each initiative and reviewed designs produced by the team.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="role">
+      <summary>
+        <div class="role-title-line">
+          <span class="role-title">Senior Software Engineer</span>
+          <span class="role-company">Playtika</span>
+        </div>
+        <span class="role-date">Mar 2018 — Aug 2018 <span class="chev">▸</span></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-place">Dnipropetrovsk, Ukraine</div>
+        <div class="role-product">Mobile gaming platform — high-load microservices</div>
+        <ul>
+          <li>Designed and implemented scalable backend microservices for a new game on Playtika's cloud gaming platform.</li>
+          <li>Took full ownership of feature delivery, production monitoring, and incident resolution.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="role">
+      <summary>
+        <div class="role-title-line">
+          <span class="role-title">Senior Software Engineer</span>
+          <span class="role-company">SoftServe</span>
+        </div>
+        <span class="role-date">Sep 2016 — Feb 2018 <span class="chev">▸</span></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-place">Dnipropetrovsk, Ukraine</div>
+        <ul>
+          <li>Owned the tax-processing microservice within a multitenant billing and subscription platform.</li>
+          <li>Refactored undocumented legacy monolith logic into independently deployable services.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="role">
+      <summary>
+        <div class="role-title-line">
+          <span class="role-title">Software Engineer</span>
+          <span class="role-company">SoftServe</span>
+        </div>
+        <span class="role-date">Jan 2014 — Sep 2016 <span class="chev">▸</span></span>
+      </summary>
+      <div class="role-body">
+        <div class="role-place">Dnipropetrovsk, Ukraine</div>
+        <ul>
+          <li>Delivered backend and full-stack features across healthcare, education, and payments client projects.</li>
+          <li>Led localization of a US dental-practice management system for the Australian market.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="role-early">
+      <div class="role-title-line">
+        <span class="role-title">Grails/Java Developer</span>
+        <span class="role-company">SysGears</span>
+      </div>
+      <span class="role-date">Nov 2012 — Dec 2013</span>
+    </div>
+    <div class="role-early">
+      <div class="role-title-line">
+        <span class="role-title">Java Developer (Intern)</span>
+        <span class="role-company">Exigen Services</span>
+      </div>
+      <span class="role-date">Sep 2011 — Dec 2011</span>
+    </div>
+
+  </div>
+</section>
+
+<section class="wrap" id="toolkit">
+  <div class="eyebrow">Toolkit</div>
+  <div class="toolkit-grid">
+    <div>
+      <div class="toolkit-group-label">Languages</div>
+      <div class="chips">
+        <span class="chip">Java</span><span class="chip">Go</span><span class="chip">Python</span>
+        <span class="chip">JavaScript</span><span class="chip">Groovy</span>
+      </div>
+    </div>
+    <div>
+      <div class="toolkit-group-label">Cloud &amp; infra</div>
+      <div class="chips">
+        <span class="chip">AWS Lambda</span><span class="chip">SQS</span><span class="chip">Docker</span>
+        <span class="chip">Terraform</span>
+      </div>
+    </div>
+    <div>
+      <div class="toolkit-group-label">Data &amp; messaging</div>
+      <div class="chips">
+        <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">DynamoDB</span>
+        <span class="chip">Vertica</span><span class="chip">MongoDB</span><span class="chip">Elasticsearch</span>
+        <span class="chip">Kafka</span><span class="chip">RabbitMQ</span>
+      </div>
+    </div>
+    <div>
+      <div class="toolkit-group-label">Frameworks</div>
+      <div class="chips">
+        <span class="chip">Spring / Spring Boot</span><span class="chip">React</span><span class="chip">Angular</span>
+        <span class="chip">Node.js</span><span class="chip">Hibernate / JPA</span>
+      </div>
+    </div>
+    <div>
+      <div class="toolkit-group-label">Practices &amp; tools</div>
+      <div class="chips">
+        <span class="chip">Agile / Scrum</span><span class="chip">TDD / BDD</span><span class="chip">CI/CD</span>
+        <span class="chip">Git</span><span class="chip">Jira</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="background">
+  <div class="eyebrow">Background</div>
+  <div class="bg-grid">
+    <div class="bg-col">
+      <h3>Education</h3>
+      <div class="edu-item">
+        <div class="edu-degree">Specialist, Computer Engineering</div>
+        <div class="edu-school">Dnipropetrovsk National University</div>
+        <div class="edu-date">2012 – 2013</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">B.S., Computer Engineering</div>
+        <div class="edu-school">Dnipropetrovsk National University</div>
+        <div class="edu-date">2008 – 2012</div>
+      </div>
+    </div>
+    <div class="bg-col">
+      <h3>Certifications</h3>
+      <div class="cert-item">Oracle Certified Associate, Java SE 8 Programmer</div>
+      <div class="cert-item">M101J: MongoDB for Java Developers</div>
+      <div class="cert-item">NEVCO HIPAA Certification Program</div>
+    </div>
+    <div class="bg-col">
+      <h3>Languages</h3>
+      <div class="lang-item"><span>Ukrainian</span><span class="lang-level">native</span></div>
+      <div class="lang-item"><span>Russian</span><span class="lang-level">fluent</span></div>
+      <div class="lang-item"><span>English</span><span class="lang-level">professional</span></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-eyebrow">Get in touch</div>
+    <div class="footer-line">Building a team, or just want to talk shop? <a href="mailto:andrew.preizner@gmail.com" style="text-decoration:underline; text-decoration-color: var(--accent);">Say hello.</a></div>
+    <div class="footer-links">
+      <a class="cta primary" href="mailto:andrew.preizner@gmail.com">andrew.preizner@gmail.com</a>
+      <a class="cta" href="https://www.linkedin.com/in/andrewpreizner/">LinkedIn</a>
+      <a class="cta" href="https://github.com/aprey10">GitHub</a>
+    </div>
+    <div class="footer-meta">Alpharetta, GA, USA</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // scroll progress
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop;
+    var height = h.scrollHeight - h.clientHeight;
+    bar.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // active nav link
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if('IntersectionObserver' in window && sections.length){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var idx = sections.indexOf(entry.target);
+        if(idx === -1) return;
+        if(entry.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('active'); });
+          links[idx].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+
+  // only one experience entry open at a time
+  var roles = Array.prototype.slice.call(document.querySelectorAll('.role'));
+  roles.forEach(function(r){
+    r.addEventListener('toggle', function(){
+      if(r.open){
+        roles.forEach(function(other){ if(other !== r) other.open = false; });
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
